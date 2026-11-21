@@ -1,0 +1,15 @@
+{
+  "amount": 300,
+  "decision": "APPROVE",
+  "image_id": "0x628816c4834109d310e6433b35a3ce9e218789a2b7a554c79866047abe223938",
+  "memo": "Design contractor, invoice 1182",
+  "policy_hash": "0x2da09bbf12457fdb739cb18b76d18afcc42604a5c720a414a0f441fcc17209d7",
+  "proof_bytes": 279069,
+  "proposal_hash": "0x74fc391424fc013148c7b3640898049dd8a6d2c0ae0d2205033622a71d9299a2",
+  "prove_seconds": 90.4,
+  "reason": "OK",
+  "recipient": "0x7a3f9c2e41b8d05e6c1fa9b3d27e48c50f6a1d92",
+  "seq": 0,
+  "state_after": "0x88366bf07882c8be362d0582cea94d9c1628232bd588cecb972e3341f340cfa3",
+  "state_before": "0x2b942ad0466e6f138f46aae93774c2e5e5fc41c8bafaa05dbf7d437ffc027882"
+}

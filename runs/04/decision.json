@@ -1,0 +1,15 @@
+{
+  "amount": 450,
+  "decision": "APPROVE",
+  "image_id": "0x628816c4834109d310e6433b35a3ce9e218789a2b7a554c79866047abe223938",
+  "memo": "Hosting, monthly plan",
+  "policy_hash": "0x2da09bbf12457fdb739cb18b76d18afcc42604a5c720a414a0f441fcc17209d7",
+  "proof_bytes": 279071,
+  "proposal_hash": "0x783c416fb24b3449d8382e04d3593dafcbde709ed57610966e3e065bbd0ad5e0",
+  "prove_seconds": 98.5,
+  "reason": "OK",
+  "recipient": "0x2c91e4b7a05d38f6e1c2b9a47d3e05f81c6a4b70",
+  "seq": 3,
+  "state_after": "0x456a225a893dced795302e69f2e8b2c913e4216ff3f5ea4dfc793826f7c98664",
+  "state_before": "0x43ba5ad11f661f74333b56f81c1796c546e9b74e93ad4d8f00856444e6345d79"
+}

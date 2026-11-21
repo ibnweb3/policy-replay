@@ -1,0 +1,15 @@
+{
+  "amount": 250,
+  "decision": "REJECT",
+  "image_id": "0x628816c4834109d310e6433b35a3ce9e218789a2b7a554c79866047abe223938",
+  "memo": "Urgent: vendor changed bank details (from email)",
+  "policy_hash": "0x2da09bbf12457fdb739cb18b76d18afcc42604a5c720a414a0f441fcc17209d7",
+  "proof_bytes": 279068,
+  "proposal_hash": "0x0bf46d49276a86f7a535dbf7b9cb9fcf310836537a17ece682bbafa4b467db33",
+  "prove_seconds": 82.0,
+  "reason": "RECIPIENT_NOT_ALLOWLISTED",
+  "recipient": "0x9d0b4e1fa7c3285e60d1f7b2c94a3e8d15b6f033",
+  "seq": 1,
+  "state_after": "0xf41205878b031bb244c163c121dba5790042921a8bee091af649f2e2c5f91a34",
+  "state_before": "0x88366bf07882c8be362d0582cea94d9c1628232bd588cecb972e3341f340cfa3"
+}
