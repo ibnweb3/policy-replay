@@ -4,6 +4,7 @@
 // usage: node scripts/check-chain.mjs [runs]
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 
 const dir = process.argv[2] || "runs";
 const runs = fs.readdirSync(dir).filter((d) => fs.existsSync(path.join(dir, d, "decision.json"))).sort();
@@ -20,6 +21,20 @@ for (const r of runs) {
     if (d.image_id !== prev.image_id) errs.push("different policy program");
     if (d.policy_hash !== prev.policy_hash) errs.push("different policy settings");
   } else if (d.seq !== 0) errs.push("log does not start at seq 0");
+  const pf = path.join(dir, r, "proof.json");
+  if (z && fs.existsSync(pf)) {
+    const p = JSON.parse(fs.readFileSync(pf, "utf8"));
+    const sha = "0x" + createHash("sha256").update(p.proof + p.pub_inputs).digest("hex");
+    if (!z.proofSha256) errs.push("receipt has no proof fingerprint");
+    else if (z.proofSha256 !== sha) errs.push("proof.json is not the proof that was submitted");
+    if (p.image_id !== d.image_id) errs.push("proof image ID differs from decision");
+    // the readable decision.json must say what the proven journal says
+    const j = Buffer.from(p.pub_inputs.slice(2), "hex"), hx = (a, b) => "0x" + j.subarray(a, b).toString("hex");
+    const REASONS = ["OK", "OVER_PER_TRANSFER_CAP", "OVER_DAILY_LIMIT", "RECIPIENT_NOT_ALLOWLISTED", "TOO_SOON_AFTER_LAST", "CLOCK_WENT_BACKWARDS", "ZERO_AMOUNT"];
+    if (hx(68, 100) !== d.state_before || hx(100, 132) !== d.state_after || hx(4, 36) !== d.policy_hash || hx(36, 68) !== d.proposal_hash
+      || (j[132] === 1 ? "APPROVE" : "REJECT") !== d.decision || REASONS[j[133]] !== d.reason || Number(j.readBigUInt64LE(134)) !== d.seq)
+      errs.push("decision.json does not match the proven journal");
+  }
   if (!z) errs.push("not submitted to zkVerify");
   else if (z.status !== "Finalized") errs.push(`zkVerify status ${z.status}`);
   if (errs.length) ok = false;

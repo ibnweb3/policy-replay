@@ -9,8 +9,24 @@
 
   let D;
   try { D = await (await fetch("data/runs.json")).json(); }
-  catch { $("#logBody").innerHTML = '<tr><td colspan="5" class="memo">Could not load data/runs.json. Open the page through a web server, or see the run files on GitHub.</td></tr>'; return; }
+  catch {
+    const msg = 'Could not load data/runs.json. Open the page through a web server, or see the run files on GitHub.';
+    $("#logBody").innerHTML = `<tr><td colspan="5" class="memo">${msg}</td></tr>`;
+    $("#liveList").innerHTML = `<li><span class="x">!</span><span>${msg}</span></li>`;
+    $("#rcptBadge").hidden = true;
+    return;
+  }
   const runs = D.runs;
+
+  // ---------- hero: real measurements and the real journal on the art ----------
+  const heroEl = $(".hero2");
+  const labelIt = () => ($("#heroLabel").textContent = `/hero · ${Math.round(heroEl.getBoundingClientRect().width)} × auto · zkVerify Agent Games`);
+  labelIt(); addEventListener("resize", labelIt);
+  const show2 = runs.find((r) => r.reason === "RECIPIENT_NOT_ALLOWLISTED") || runs[0];
+  const jb = show2.journal.replace(/^0x/, "").match(/../g);
+  $("#hexov").innerHTML = `<em>byte 132 = <b>${jb[132]}</b> ${show2.decision} · byte 133 = <b>${jb[133]}</b> ${show2.reason.toLowerCase().replaceAll("_", " ")}</em>`
+    + jb.map((b, i) => (i === 132 || i === 133 ? `<b>${b}</b>` : b)).join(" ");
+  $("#artTag").textContent = `Journal #${show2.seq} · ${jb.length} bytes`;
 
   // ---------- hero: live proof card (a replay of the recorded receipts) ----------
   const fin = runs.filter((r) => r.zkverify.status === "Finalized").length;

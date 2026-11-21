@@ -206,3 +206,7 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
 @keyframes drift{to{transform:translate(-14px,10px) scale(1.05)}}
 @media (prefers-reduced-motion:reduce){.shot .drift{animation:none}}
 @media (max-width:640px){.frame .size{display:none}}
+.shot .hexov{position:absolute;left:18px;right:18px;top:18px;z-index:1;font:12.5px/1.75 var(--mono);letter-spacing:.06em;color:rgba(255,255,255,.34);word-spacing:.2em;pointer-events:none}
+.shot .hexov b{font-weight:500;color:#fff;background:rgba(255,79,154,.55);border-radius:3px;padding:0 2px}
+.shot .hexov em{display:block;font-style:normal;margin:0 0 10px;color:rgba(255,255,255,.78);letter-spacing:.02em;line-height:1.5}
+@media (max-width:520px){.shot .hexov{font-size:11px}}

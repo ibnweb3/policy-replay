@@ -3,6 +3,7 @@
 // needs KURIER_API_KEY in .env (testnet key from https://testnet.kurier.xyz). Never commit .env.
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 
 const root = path.resolve(path.dirname(new globalThis.URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
 for (const l of (fs.existsSync(path.join(root, ".env")) ? fs.readFileSync(path.join(root, ".env"), "utf8") : "").split(/\r?\n/)) {
@@ -15,6 +16,12 @@ if (!KEY) { console.error("KURIER_API_KEY missing (put it in .env)"); process.ex
 const dir = process.argv[2];
 if (!dir) { console.error("usage: node scripts/submit.mjs <run dir>"); process.exit(1); }
 const proof = JSON.parse(fs.readFileSync(path.join(dir, "proof.json"), "utf8"));
+// fingerprint of exactly what is submitted, so check-chain can tell if proof.json changes later
+const proofSha256 = "0x" + createHash("sha256").update(proof.proof + proof.pub_inputs).digest("hex");
+const prev = path.join(dir, "zkverify.json");
+if (fs.existsSync(prev) && JSON.parse(fs.readFileSync(prev, "utf8")).status === "Finalized" && process.env.FORCE !== "1") {
+  console.error(`${dir} already has a finalized zkVerify receipt; set FORCE=1 to submit again`); process.exit(1);
+}
 
 const post = async (p, body) => {
   const r = await fetch(`${API}/${p}/${KEY}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
@@ -55,7 +62,7 @@ console.log();
 const receipt = {
   network: API.includes("testnet") ? "zkVerify Volta testnet" : "zkVerify mainnet",
   jobId: sub.j.jobId, status: st.status, txHash: st.txHash, blockHash: st.blockHash,
-  vkHash: vk.vkHash, risc0Version: VERSION, finalizedAt: st.updatedAt,
+  vkHash: vk.vkHash, risc0Version: VERSION, finalizedAt: st.updatedAt, proofSha256,
   explorer: st.txHash ? (API.includes("testnet") ? `https://zkverify-testnet.subscan.io/extrinsic/${st.txHash}` : `https://zkverify.subscan.io/extrinsic/${st.txHash}`) : null,
 };
 fs.writeFileSync(path.join(dir, "zkverify.json"), JSON.stringify(receipt, null, 2));

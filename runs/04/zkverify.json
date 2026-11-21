@@ -7,5 +7,6 @@
   "vkHash": "0xec49800da2085a076a300aa47ce95a46f4c4631ddab55e22053cb60df032f698",
   "risc0Version": "V2_3",
   "finalizedAt": "2026-11-21T13:21:09.000Z",
-  "explorer": "https://zkverify-testnet.subscan.io/extrinsic/0x5a48647106cab5acdf6c37265c6c4b15276a198bb608ef6a66427db8ac25e76e"
+  "explorer": "https://zkverify-testnet.subscan.io/extrinsic/0x5a48647106cab5acdf6c37265c6c4b15276a198bb608ef6a66427db8ac25e76e",
+  "proofSha256": "0x0a8d728e0601536ffb7f2d2e2fb18f90f0e4ed57743251d1bae4f88724e296f6"
 }

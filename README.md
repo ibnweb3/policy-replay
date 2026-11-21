@@ -4,7 +4,7 @@
 
 Built for the Agent Games Creator Track (zkVerify), November 2026. #AgentGames
 
-Web page: `docs/index.html` (replay of the five decisions, the log with zkVerify links, and an in-browser check that recomputes every committed hash). Rebuild its data with `node scripts/build-site-data.mjs`.
+Web page: **https://ibnweb3.github.io/policy-replay/** (source `docs/`: replay of the five decisions, the log with zkVerify links, and an in-browser check that recomputes every committed hash). Rebuild its data with `node scripts/build-site-data.mjs`.
 
 ## The problem
 
@@ -62,10 +62,10 @@ Every risc0-zkvm 2.x and 3.0.x release is yanked on crates.io, so the lockfile p
 CVE-2025-61588, with crates.io checksums. Yanked crates still install from a lockfile.
 
 ```bash
-bash scripts/run-demo.sh                 # proves all five proposals, chained (no dev mode)
+bash scripts/run-demo.sh                 # proves all five proposals into myruns/ (no dev mode; runs/ is never overwritten)
 echo 'KURIER_API_KEY=...' > .env         # testnet key from testnet.kurier.xyz, never commit it
-for r in runs/*; do node scripts/submit.mjs "$r"; done
-node scripts/check-chain.mjs
+for r in myruns/*; do node scripts/submit.mjs "$r"; done
+node scripts/check-chain.mjs myruns          # or with no argument, to check the committed runs/
 ```
 
 ## Layout
@@ -73,5 +73,8 @@ node scripts/check-chain.mjs
 - `methods/guest/src/main.rs`: the policy (what is proven)
 - `host/src/main.rs`: runs the prover, checks the receipt locally, writes `proof.json` in zkVerify's Risc0 format
 - `scripts/submit.mjs`: registers the image ID and submits through Kurier, waits for `Finalized`
-- `scripts/check-chain.mjs`: verifies the chain of decisions
+- `scripts/check-chain.mjs`: verifies the chain of decisions, that each `decision.json` matches its proven journal,
+  and that each `proof.json` is byte-for-byte the proof that was submitted (`proofSha256` in `zkverify.json`)
+- `runs/`: the five proofs that were submitted, with their zkVerify receipts
+- `vk-ec49800da208-V2_3.json`: Kurier's record of the registered policy image ID
 - `tools/zkv-check`: verifies a `proof.json` locally with zkVerify's own `risc0-verifier` crate before submitting
