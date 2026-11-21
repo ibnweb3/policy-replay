@@ -12,9 +12,67 @@
   catch { $("#logBody").innerHTML = '<tr><td colspan="5" class="memo">Could not load data/runs.json. Open the page through a web server, or see the run files on GitHub.</td></tr>'; return; }
   const runs = D.runs;
 
-  // ---------- hero proof line ----------
+  // ---------- hero: live proof card (a replay of the recorded receipts) ----------
   const fin = runs.filter((r) => r.zkverify.status === "Finalized").length;
-  $("#proofline").innerHTML = `<span class="chip"><i></i>${fin} of ${runs.length} receipts finalized on zkVerify</span><span class="chip">image ID ${short(D.image_id, 4, 4)}</span><span class="chip">risc0 2.3.2 · verifier ${runs[0].zkverify.verifier}</span>`;
+  $("#rcptBadge").textContent = fin;
+  $("#liveCount").textContent = `${runs.length} decisions · ${fin} receipts`;
+  const dots5 = [...document.querySelectorAll("#liveDots b")];
+  function playLive() {
+    const list = $("#liveList"); list.innerHTML = ""; $("#liveBar").style.width = "0%"; $("#livePct").textContent = "0%";
+    dots5.forEach((d) => (d.style.background = ""));
+    runs.forEach((r, i) => setTimeout(() => {
+      const ok = r.decision === "APPROVE";
+      list.querySelector(".now")?.classList.remove("now");
+      const li = document.createElement("li");
+      li.innerHTML = `<span class="${ok ? "ck" : "x"}">${ok ? "✓" : "✕"}</span><span>#${r.seq} ${r.decision} · ${ok ? "within policy" : r.reason.toLowerCase().replaceAll("_", " ")}</span>`;
+      list.appendChild(li); while (list.children.length > 4) list.firstChild.remove();
+      dots5[i].style.background = ok ? "var(--pass)" : "var(--pink)";
+      const pct = Math.round(((i + 1) / runs.length) * 100);
+      $("#liveBar").style.width = pct + "%"; $("#livePct").textContent = pct + "%";
+      if (i === runs.length - 1) setTimeout(() => {
+        const done = document.createElement("li"); done.className = "now";
+        done.innerHTML = `<span class="ck">●</span><span>${fin}/${runs.length} finalized · chain intact</span>`;
+        list.appendChild(done); while (list.children.length > 4) list.firstChild.remove();
+      }, 600);
+    }, (reduce ? 0 : 700) + i * (reduce ? 0 : 750)));
+  }
+  playLive();
+
+  // ---------- hero: measured size chip on the framed word ----------
+  const fw = $("#frameWord");
+  const sizeIt = () => { const r = fw.getBoundingClientRect(); $("#frameSize").textContent = `${Math.round(r.width)} × ${Math.round(r.height)}`; };
+  document.fonts?.ready.then(sizeIt); addEventListener("resize", sizeIt); sizeIt();
+
+  // ---------- hero: cursor swarm (decorative; follows the pointer when it rests) ----------
+  const ring = $("#ring"), swarm = $("#swarm"), hero = $(".hero2");
+  const colors = ["#ff4f9a", "#5fd39a", "#3d5bff", "#f0c264", "#8f6bff", "#ff8a4c", "#4fd1ff", "#c6f24e"];
+  const N = 16;
+  for (let i = 0; i < N; i++) {
+    const a = (i / N) * Math.PI * 2, x = Math.cos(a) * 72, y = Math.sin(a) * 72;
+    const deg = (a * 180) / Math.PI + 225; // tip points at the centre
+    ring.insertAdjacentHTML("beforeend", `<svg viewBox="0 0 22 22" style="transform:translate(${x}px,${y}px) rotate(${deg}deg)"><path d="M3 3l6.8 15.6 2.3-6.6 6.6-2.3z" fill="${colors[i % colors.length]}" stroke="#0a0a0f" stroke-width="1.3" stroke-linejoin="round"/></svg>`);
+  }
+  const home = () => { const h = hero.getBoundingClientRect(), c = $(".hero2 .cta .btn.plain").getBoundingClientRect(); return [c.right - h.left + 120, c.top - h.top + c.height / 2 - 14]; };
+  const place = ([x, y]) => (swarm.style.transform = `translate(${x}px,${y}px)`);
+  place(home()); addEventListener("resize", () => place(home()));
+  let idle;
+  if (matchMedia("(hover: hover)").matches && !reduce) {
+    hero.addEventListener("pointermove", (e) => {
+      clearTimeout(idle);
+      const h = hero.getBoundingClientRect(), x = e.clientX - h.left, y = e.clientY - h.top;
+      idle = setTimeout(() => place([x, y]), 650);
+    });
+    hero.addEventListener("pointerleave", () => { clearTimeout(idle); place(home()); });
+    addEventListener("keydown", (e) => { if (e.key === "Escape") { clearTimeout(idle); place(home()); } });
+  }
+
+  // ---------- dock: highlight the section in view ----------
+  const dockLinks = [...document.querySelectorAll("#dockNav a")];
+  const spy = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting) return;
+    dockLinks.forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id));
+  }), { rootMargin: "-45% 0px -50% 0px" });
+  dockLinks.forEach((a) => { const t = document.querySelector(a.getAttribute("href")); if (t) spy.observe(t); });
 
   // ---------- log table ----------
   $("#logBody").innerHTML = runs.map((r) => {
