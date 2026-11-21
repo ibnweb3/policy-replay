@@ -4,6 +4,8 @@
 
 Built for the Agent Games Creator Track (zkVerify), November 2026. #AgentGames
 
+Web page: `docs/index.html` (replay of the five decisions, the log with zkVerify links, and an in-browser check that recomputes every committed hash). Rebuild its data with `node scripts/build-site-data.mjs`.
+
 ## The problem
 
 Agents that move money are usually guarded by a "policy": spend caps, allowlists, rate limits. But from the outside you cannot tell whether the policy actually ran, which version ran, or whether someone quietly edited it. The agent's log says "approved under policy", and that is a claim, not a result.

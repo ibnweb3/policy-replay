@@ -1,0 +1,194 @@
+{
+ "policy": {
+  "max_per_transfer": 500,
+  "daily_limit": 1000,
+  "min_gap_secs": 60,
+  "allowlist": [
+   "0x7a3f9c2e41b8d05e6c1fa9b3d27e48c50f6a1d92",
+   "0x2c91e4b7a05d38f6e1c2b9a47d3e05f81c6a4b70"
+  ]
+ },
+ "image_id": "0xec49800da2085a076a300aa47ce95a46f4c4631ddab55e22053cb60df032f698",
+ "runs": [
+  {
+   "run": "01",
+   "seq": 0,
+   "decision": "APPROVE",
+   "reason": "OK",
+   "proposal": {
+    "recipient": "0x7a3f9c2e41b8d05e6c1fa9b3d27e48c50f6a1d92",
+    "amount": 300,
+    "ts": 1795262460,
+    "memo": "Design contractor, invoice 1182"
+   },
+   "state_before": {
+    "day": 0,
+    "spent_today": 0,
+    "last_ts": 0,
+    "seq": 0
+   },
+   "state_after": {
+    "day": 20778,
+    "spent_today": 300,
+    "last_ts": 1795262460,
+    "seq": 1
+   },
+   "journal": "0x505276312da09bbf12457fdb739cb18b76d18afcc42604a5c720a414a0f441fcc17209d774fc391424fc013148c7b3640898049dd8a6d2c0ae0d2205033622a71d9299a22b942ad0466e6f138f46aae93774c2e5e5fc41c8bafaa05dbf7d437ffc02788288366bf07882c8be362d0582cea94d9c1628232bd588cecb972e3341f340cfa301000000000000000000",
+   "prove_seconds": 189.4,
+   "proof_bytes": 279423,
+   "zkverify": {
+    "status": "Finalized",
+    "txHash": "0xacb509499cf59cef65068c0e919a7867e2fc2a4f3df6ca871414cf83793f0084",
+    "blockHash": "0x47962bc1e0042fc36b3ffb8a23fd30135a6e167f1940c8caef35d13c3761d6bc",
+    "explorer": "https://zkverify-testnet.subscan.io/extrinsic/0xacb509499cf59cef65068c0e919a7867e2fc2a4f3df6ca871414cf83793f0084",
+    "network": "zkVerify Volta testnet",
+    "finalizedAt": "2026-11-21T13:06:01.000Z",
+    "verifier": "V2_3"
+   }
+  },
+  {
+   "run": "02",
+   "seq": 1,
+   "decision": "REJECT",
+   "reason": "RECIPIENT_NOT_ALLOWLISTED",
+   "proposal": {
+    "recipient": "0x9d0b4e1fa7c3285e60d1f7b2c94a3e8d15b6f033",
+    "amount": 250,
+    "ts": 1795262800,
+    "memo": "Urgent: vendor changed bank details (from email)"
+   },
+   "state_before": {
+    "day": 20778,
+    "spent_today": 300,
+    "last_ts": 1795262460,
+    "seq": 1
+   },
+   "state_after": {
+    "day": 20778,
+    "spent_today": 300,
+    "last_ts": 1795262460,
+    "seq": 2
+   },
+   "journal": "0x505276312da09bbf12457fdb739cb18b76d18afcc42604a5c720a414a0f441fcc17209d70bf46d49276a86f7a535dbf7b9cb9fcf310836537a17ece682bbafa4b467db3388366bf07882c8be362d0582cea94d9c1628232bd588cecb972e3341f340cfa3f41205878b031bb244c163c121dba5790042921a8bee091af649f2e2c5f91a3400030100000000000000",
+   "prove_seconds": 253.9,
+   "proof_bytes": 279425,
+   "zkverify": {
+    "status": "Finalized",
+    "txHash": "0xf8f9e9d86666223f17d4498de1ae8b1e11a4d857e95247f2911aa490ca329564",
+    "blockHash": "0x4b0da9150f3505cee3364f00ff3e2bae32cdc98ebb8f4f2485775d4dcb93e0aa",
+    "explorer": "https://zkverify-testnet.subscan.io/extrinsic/0xf8f9e9d86666223f17d4498de1ae8b1e11a4d857e95247f2911aa490ca329564",
+    "network": "zkVerify Volta testnet",
+    "finalizedAt": "2026-11-21T13:20:09.000Z",
+    "verifier": "V2_3"
+   }
+  },
+  {
+   "run": "03",
+   "seq": 2,
+   "decision": "REJECT",
+   "reason": "OVER_PER_TRANSFER_CAP",
+   "proposal": {
+    "recipient": "0x2c91e4b7a05d38f6e1c2b9a47d3e05f81c6a4b70",
+    "amount": 650,
+    "ts": 1795263300,
+    "memo": "Hosting, annual plan"
+   },
+   "state_before": {
+    "day": 20778,
+    "spent_today": 300,
+    "last_ts": 1795262460,
+    "seq": 2
+   },
+   "state_after": {
+    "day": 20778,
+    "spent_today": 300,
+    "last_ts": 1795262460,
+    "seq": 3
+   },
+   "journal": "0x505276312da09bbf12457fdb739cb18b76d18afcc42604a5c720a414a0f441fcc17209d7cb59735f4e796b66c433debacab2af247c553f124790dc33d36db4807a426a2ef41205878b031bb244c163c121dba5790042921a8bee091af649f2e2c5f91a3443ba5ad11f661f74333b56f81c1796c546e9b74e93ad4d8f00856444e6345d7900010200000000000000",
+   "prove_seconds": 230,
+   "proof_bytes": 279431,
+   "zkverify": {
+    "status": "Finalized",
+    "txHash": "0xe66c89db631c57a699cff4fbfe4cdc86707c62ff3f0a36acce8afd50f606bf63",
+    "blockHash": "0xacb0cbad8f54ebfabf674576bb3ac533a591f3fef31a29aef0825eaf03af0f12",
+    "explorer": "https://zkverify-testnet.subscan.io/extrinsic/0xe66c89db631c57a699cff4fbfe4cdc86707c62ff3f0a36acce8afd50f606bf63",
+    "network": "zkVerify Volta testnet",
+    "finalizedAt": "2026-11-21T13:20:39.000Z",
+    "verifier": "V2_3"
+   }
+  },
+  {
+   "run": "04",
+   "seq": 3,
+   "decision": "APPROVE",
+   "reason": "OK",
+   "proposal": {
+    "recipient": "0x2c91e4b7a05d38f6e1c2b9a47d3e05f81c6a4b70",
+    "amount": 450,
+    "ts": 1795263900,
+    "memo": "Hosting, monthly plan"
+   },
+   "state_before": {
+    "day": 20778,
+    "spent_today": 300,
+    "last_ts": 1795262460,
+    "seq": 3
+   },
+   "state_after": {
+    "day": 20778,
+    "spent_today": 750,
+    "last_ts": 1795263900,
+    "seq": 4
+   },
+   "journal": "0x505276312da09bbf12457fdb739cb18b76d18afcc42604a5c720a414a0f441fcc17209d7783c416fb24b3449d8382e04d3593dafcbde709ed57610966e3e065bbd0ad5e043ba5ad11f661f74333b56f81c1796c546e9b74e93ad4d8f00856444e6345d79456a225a893dced795302e69f2e8b2c913e4216ff3f5ea4dfc793826f7c9866401000300000000000000",
+   "prove_seconds": 123.6,
+   "proof_bytes": 279429,
+   "zkverify": {
+    "status": "Finalized",
+    "txHash": "0x5a48647106cab5acdf6c37265c6c4b15276a198bb608ef6a66427db8ac25e76e",
+    "blockHash": "0xd28732ca940aaa4015967841144ab69de26ef074df19134a2cc7e2c5e926fbf4",
+    "explorer": "https://zkverify-testnet.subscan.io/extrinsic/0x5a48647106cab5acdf6c37265c6c4b15276a198bb608ef6a66427db8ac25e76e",
+    "network": "zkVerify Volta testnet",
+    "finalizedAt": "2026-11-21T13:21:09.000Z",
+    "verifier": "V2_3"
+   }
+  },
+  {
+   "run": "05",
+   "seq": 4,
+   "decision": "REJECT",
+   "reason": "OVER_DAILY_LIMIT",
+   "proposal": {
+    "recipient": "0x7a3f9c2e41b8d05e6c1fa9b3d27e48c50f6a1d92",
+    "amount": 400,
+    "ts": 1795264800,
+    "memo": "Design contractor, invoice 1183"
+   },
+   "state_before": {
+    "day": 20778,
+    "spent_today": 750,
+    "last_ts": 1795263900,
+    "seq": 4
+   },
+   "state_after": {
+    "day": 20778,
+    "spent_today": 750,
+    "last_ts": 1795263900,
+    "seq": 5
+   },
+   "journal": "0x505276312da09bbf12457fdb739cb18b76d18afcc42604a5c720a414a0f441fcc17209d77dce08615b89a2109b9e69445b7dea419ab55c9b4e11d8c62e50ebe5f2e6ef5d456a225a893dced795302e69f2e8b2c913e4216ff3f5ea4dfc793826f7c9866413097d397a938e5c7f91de9ebc177982587d22d3392c78986d046d8b418ec8ec00020400000000000000",
+   "prove_seconds": 172.3,
+   "proof_bytes": 279427,
+   "zkverify": {
+    "status": "Finalized",
+    "txHash": "0x7b18bddab3e5d79acfa0e48a1839923c1ea73690d84abb32c3760a26dba9d870",
+    "blockHash": "0xe47094b3a04e6d44956987de774c8d26a9fccd35f20316e8dea1720012cdf30a",
+    "explorer": "https://zkverify-testnet.subscan.io/extrinsic/0x7b18bddab3e5d79acfa0e48a1839923c1ea73690d84abb32c3760a26dba9d870",
+    "network": "zkVerify Volta testnet",
+    "finalizedAt": "2026-11-21T13:21:40.000Z",
+    "verifier": "V2_3"
+   }
+  }
+ ]
+}
