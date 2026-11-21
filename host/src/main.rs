@@ -131,10 +131,11 @@ fn main() -> Result<()> {
         bail!("host/guest disagree on the next state");
     }
 
-    // ---- zkVerify format: the pallet expects the InnerReceipt serialized with ciborium
-    // (docs.zkverify.io/architecture/verification_pallets/risc0), journal bytes as pubs ----
+    // ---- zkVerify format: the full Receipt serialized with ciborium (what zkVerify's
+    // risc0-verifier crate deserializes into its `Proof`), journal bytes as pubs,
+    // image ID as its digest bytes ----
     let mut bin = Vec::new();
-    ciborium::into_writer(&receipt.inner, &mut bin)?;
+    ciborium::into_writer(&receipt, &mut bin)?;
     let image_id = hex::encode(POLICY_GUEST_ID.iter().flat_map(|v| v.to_le_bytes()).collect::<Vec<u8>>());
     let zp = ZkvProof {
         proof: format!("0x{}", hex::encode(&bin)),
