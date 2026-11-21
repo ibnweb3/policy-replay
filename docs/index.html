@@ -32,7 +32,7 @@
 <section class="hero2" id="top">
   <div class="copy">
     <span class="label" id="heroLabel">/hero · zkVerify Agent Games</span>
-    <h1>Your agent&rsquo;s rules, <span class="frame" id="frameWord"><i></i><i></i><i></i><i></i>proven<span class="size" id="frameSize" aria-hidden="true">– × –</span></span> on zkVerify.</h1>
+    <h1>Your agent&rsquo;s rules, <span class="frame" id="frameWord"><i></i><i></i><i></i><i></i>proven<span class="lensWrap" id="lensWrap" aria-hidden="true"><span class="lens"><span class="lensIn" id="lensIn">proven</span></span><span class="handle"></span></span><span class="size" id="frameSize" aria-hidden="true">– × –</span></span> on zkVerify.</h1>
     <p class="sub">An agent proposes a payment. A Rust policy decides inside the RISC Zero zkVM. zkVerify verifies the proof and records it on-chain, so anyone can check the agent didn&rsquo;t skip its own rules.</p>
     <div class="cta">
       <a class="btn big" href="#replay">Watch the replay <span class="badge" id="rcptBadge" title="finalized zkVerify receipts">5</span><span class="sr-only"> finalized receipts</span></a>
@@ -102,7 +102,13 @@
   <h2>Five decisions, replayed</h2>
   <p class="lede">A small studio's agent proposes five payments in one day. Policy: allowlist of two vendors, at most 500 per transfer, 1,000 per day, 60 seconds between payments. Everything below is read from the run files in the repo.</p>
   <div class="stage" role="region" aria-label="Replay of the five recorded decisions">
-    <div class="stage-bar"><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><span class="stage-title label">/replay · zkVerify Volta testnet</span><span class="spacer"></span><button class="plain sm" id="replayBtn" type="button">Replay</button></div>
+    <div class="stage-bar"><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><span class="stage-title label">/replay · zkVerify Volta testnet</span><span class="spacer"></span>
+      <div class="ctrls" role="group" aria-label="Replay controls">
+        <button class="plain sm icon" id="prevBtn" type="button" aria-label="Previous decision"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 2.5 4.5 7 9 11.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="plain sm" id="playBtn" type="button" aria-label="Pause">Pause</button>
+        <button class="plain sm icon" id="nextBtn" type="button" aria-label="Next decision"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 2.5 9.5 7 5 11.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="plain sm" id="replayBtn" type="button">Replay</button>
+      </div></div>
     <div class="stage-body">
       <div class="layers">
         <h4>Policy checks</h4>
@@ -110,7 +116,7 @@
         <div class="layer" data-rule="cap"><span>≤ 500 per transfer</span><span class="tag na">–</span></div>
         <div class="layer" data-rule="daily"><span>≤ 1,000 per day</span><span class="tag na">–</span></div>
         <div class="layer" data-rule="gap"><span>≥ 60 s apart</span><span class="tag na">–</span></div>
-        <h4 style="margin-top:18px">Decisions</h4>
+        <h4 style="margin-top:18px">Decisions <span class="kbd">← →</span></h4>
         <div class="seqs" id="seqs"></div>
       </div>
       <div class="canvas" id="canvas">
@@ -136,20 +142,61 @@
   <p class="note">Addresses and the "changed bank details" email are made up for the demo. The proofs and the zkVerify transactions are real.</p>
 </section>
 
+<section class="block" id="try">
+  <span class="label">/playground</span>
+  <h2>Try the policy yourself</h2>
+  <p class="lede">Change the proposal and watch the same rules decide, in order. If your inputs match one of the five proven decisions, the playground links its zkVerify receipt. Anything else runs in your browser only and is not a proof.</p>
+  <div class="play">
+    <form class="pform" id="pform" autocomplete="off" onsubmit="return false">
+      <label class="fld"><span>Recipient</span>
+        <select id="fTo">
+          <option value="0x7a3f9c2e41b8d05e6c1fa9b3d27e48c50f6a1d92">Design contractor · 0x7a3f…1d92 (allowlisted)</option>
+          <option value="0x2c91e4b7a05d38f6e1c2b9a47d3e05f81c6a4b70">Hosting · 0x2c91…4b70 (allowlisted)</option>
+          <option value="0x9d0b4e1fa7c3285e60d1f7b2c94a3e8d15b6f033">"New bank details" email · 0x9d0b…f033</option>
+        </select></label>
+      <label class="fld"><span>Amount <output id="oAmt"></output></span><input id="fAmt" type="range" min="0" max="1200" step="10" value="300"></label>
+      <label class="fld"><span>Already spent today <output id="oSpent"></output></span><input id="fSpent" type="range" min="0" max="1000" step="10" value="0"></label>
+      <label class="fld"><span>Seconds since the last payment <output id="oGap"></output></span><input id="fGap" type="range" min="0" max="3600" step="5" value="120"></label>
+      <label class="chk"><input id="fFirst" type="checkbox" checked> First decision in the log (no previous payment)</label>
+      <div class="presets" role="group" aria-label="Load a proven decision"><span class="label">Load a proven decision</span><div id="presets"></div></div>
+    </form>
+    <div class="pout" aria-live="polite">
+      <div class="pverdict" id="pVerdict">–</div>
+      <ol class="pchecks" id="pChecks"></ol>
+      <div class="pbytes"><span class="label">journal bytes this decision would commit</span><div id="pBytes"></div></div>
+      <div class="pmatch" id="pMatch"></div>
+    </div>
+  </div>
+</section>
+
 <section class="block" id="log">
   <span class="label">/the-log</span>
   <h2>The log, with receipts</h2>
-  <p class="lede">Every row is a separate Risc0 proof, verified and finalized on zkVerify testnet. Rejections are proven too, so a skipped "no" breaks the chain.</p>
+  <p class="lede">Every row is a separate Risc0 proof, verified and finalized on zkVerify testnet. Rejections are proven too, so a skipped "no" breaks the chain. Open a row to read its journal byte by byte.</p>
   <div class="tbl scroll-x"><table>
-    <thead><tr><th>#</th><th>Decision</th><th>Proposal</th><th>State before → after</th><th>zkVerify</th></tr></thead>
-    <tbody id="logBody"><tr><td colspan="5" class="memo">Loading the run files…</td></tr></tbody>
+    <thead><tr><th>#</th><th>Decision</th><th>Proposal</th><th>State before → after</th><th>zkVerify</th><th><span class="sr-only">Journal</span></th></tr></thead>
+    <tbody id="logBody"><tr><td colspan="6" class="memo">Loading the run files…</td></tr></tbody>
   </table></div>
   <p class="note" id="imgNote"></p>
 
   <div class="verify" id="verify" style="margin-top:16px">
     <h3>Check it in your browser</h3>
     <p>This decodes each public journal and recomputes every hash it commits to (the policy, the proposal, the state before and after) from the published demo files, then checks the chain. Your browser doesn't re-run the STARK verifier; zkVerify did that, and each transaction above links to it.</p>
-    <div class="row"><button type="button" id="vBtn">Verify the log</button><button type="button" class="plain" id="tBtn">Edit one entry, then verify</button></div>
+    <div class="row"><button type="button" id="vBtn">Verify the log</button></div>
+    <div class="tamper">
+      <span class="label">tamper lab · edit a copy of the log, then verify it</span>
+      <div class="row">
+        <label class="fld inline"><span class="sr-only">Entry</span><select id="tEntry"></select></label>
+        <label class="fld inline"><span class="sr-only">Edit</span><select id="tKind">
+          <option value="flip">Flip the decision</option>
+          <option value="amount">Lower the amount to 40</option>
+          <option value="recipient">Swap the recipient</option>
+          <option value="drop">Delete the entry</option>
+          <option value="state">Reset the spend before it to 0</option>
+        </select></label>
+        <button type="button" class="plain" id="tBtn">Apply and verify</button>
+      </div>
+    </div>
     <div id="vresult" role="status"></div>
     <ul class="vlist" id="vlist"></ul>
   </div>
