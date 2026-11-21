@@ -64,6 +64,15 @@ fn state_hash(s: &State) -> [u8; 32] {
     Sha256::digest(&b).into()
 }
 
+/// Receipt kind: succinct by default (one recursion-compressed receipt);
+/// RECEIPT_KIND=composite for raw segment receipts.
+fn receipt_opts() -> ProverOpts {
+    match std::env::var("RECEIPT_KIND").as_deref() {
+        Ok("composite") => ProverOpts::composite(),
+        _ => ProverOpts::succinct(),
+    }
+}
+
 fn read<T: for<'de> Deserialize<'de>>(p: &str) -> Result<T> {
     serde_json::from_str(&fs::read_to_string(p).with_context(|| format!("read {p}"))?)
         .with_context(|| format!("parse {p}"))
@@ -101,7 +110,7 @@ fn main() -> Result<()> {
 
     let t0 = std::time::Instant::now();
     let receipt = default_prover()
-        .prove_with_opts(env, POLICY_GUEST_ELF, &ProverOpts::succinct())?
+        .prove_with_opts(env, POLICY_GUEST_ELF, &receipt_opts())?
         .receipt;
     let secs = t0.elapsed().as_secs_f64();
     receipt.verify(POLICY_GUEST_ID).context("local receipt verification failed")?;

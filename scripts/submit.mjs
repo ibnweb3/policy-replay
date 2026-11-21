@@ -10,7 +10,7 @@ for (const l of (fs.existsSync(path.join(root, ".env")) ? fs.readFileSync(path.j
 }
 const KEY = process.env.KURIER_API_KEY;
 const API = process.env.KURIER_API || "https://api-testnet.kurier.xyz/api/v1";
-const VERSION = process.env.R0_VERSION || "V3_0";
+const VERSION = process.env.R0_VERSION || "V2_3";
 if (!KEY) { console.error("KURIER_API_KEY missing (put it in .env)"); process.exit(1); }
 const dir = process.argv[2];
 if (!dir) { console.error("usage: node scripts/submit.mjs <run dir>"); process.exit(1); }
