@@ -287,3 +287,6 @@ tr.decode[hidden]{display:none}
 .handle{position:absolute;left:84%;top:84%;width:calc(var(--d,90px) * .55);height:calc(var(--d,90px) * .13);border-radius:99px;background:linear-gradient(90deg,#e9e8ff,#9b98ff);transform:rotate(45deg);transform-origin:0 50%;box-shadow:0 6px 14px rgba(0,0,0,.5)}
 .pchecks li .tag{align-self:flex-start;flex:none}
 #pBytes b,.shot .hexov b{white-space:nowrap}
+
+.vidwrap{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#000;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.vidwrap video{display:block;width:100%;height:auto;aspect-ratio:16/9}

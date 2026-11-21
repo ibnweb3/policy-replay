@@ -4,6 +4,8 @@
 
 Built for the Agent Games Creator Track (zkVerify), November 2026. #AgentGames
 
+Demo video (1:19): [docs/assets/policy-replay-demo.mp4](docs/assets/policy-replay-demo.mp4), also on the web page.
+
 Web page: **https://policy-replay.ibnweb3lab.workers.dev/** (source `docs/`: replay of the five decisions, the log with zkVerify links, and an in-browser check that recomputes every committed hash). Rebuild its data with `node scripts/build-site-data.mjs`.
 
 ## The problem

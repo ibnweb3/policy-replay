@@ -9,6 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Policy Replay: an agent's rules, proven on zkVerify">
 <meta property="og:description" content="An AI agent proposes a payment, a Rust policy decides inside the RISC Zero zkVM, and zkVerify verifies the proof. Five decisions, five finalized receipts.">
+<meta property="og:video" content="https://policy-replay.ibnweb3lab.workers.dev/assets/policy-replay-demo.mp4">
 <meta property="og:image" content="https://policy-replay.ibnweb3lab.workers.dev/assets/og.png">
 <meta property="og:url" content="https://policy-replay.ibnweb3lab.workers.dev/">
 <meta name="twitter:card" content="summary_large_image">
@@ -24,7 +25,7 @@
 <header class="nav">
   <a class="brand" href="#top" aria-label="Policy Replay home"><img src="assets/favicon.svg" width="22" height="22" alt=""> Policy Replay</a>
   <nav class="nav-links" aria-label="Sections">
-    <a href="#how">How it works</a><a href="#replay">The replay</a><a href="#log">The log</a><a href="#run">Run it</a><a href="https://github.com/ibnweb3/policy-replay">GitHub</a>
+    <a href="#demo">Demo</a><a href="#how">How it works</a><a href="#replay">The replay</a><a href="#log">The log</a><a href="#run">Run it</a><a href="https://github.com/ibnweb3/policy-replay">GitHub</a>
   </nav>
 </header>
 
@@ -72,6 +73,13 @@
     </div>
   </div>
   <div class="swarm" id="swarm" aria-hidden="true"><div class="ring" id="ring"></div></div>
+</section>
+
+<section class="block" id="demo">
+  <span class="label">/demo · 1:19</span>
+  <h2>See it in 79 seconds</h2>
+  <p class="lede">The problem, the build, and the real zkVerify receipt for the rejected email payment.</p>
+  <div class="vidwrap"><video controls playsinline preload="metadata" poster="assets/demo-poster.jpg" width="1280" height="720"><source src="assets/policy-replay-demo.mp4" type="video/mp4">Your browser can't play this video. <a href="assets/policy-replay-demo.mp4">Download it</a>.</video></div>
 </section>
 
 <section class="block" id="how">
@@ -242,7 +250,7 @@ node scripts/check-chain.mjs myruns</pre><button class="copy" type="button">Copy
 </div>
 <div class="dock" role="navigation" aria-label="Page sections">
   <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
-  <nav id="dockNav"><a href="#top">Hero</a><a href="#how">How it works</a><a href="#replay">Replay</a><a href="#log">Log</a><a href="#verify">Verify</a><a href="#why">Why zkVerify</a><a href="#run">Run it</a></nav>
+  <nav id="dockNav"><a href="#top">Hero</a><a href="#demo">Demo</a><a href="#how">How it works</a><a href="#replay">Replay</a><a href="#log">Log</a><a href="#verify">Verify</a><a href="#why">Why zkVerify</a><a href="#run">Run it</a></nav>
   <a class="btn" href="https://github.com/ibnweb3/policy-replay">GitHub ↗</a>
 </div>
 <script src="assets/site.js"></script>
