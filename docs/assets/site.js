@@ -66,7 +66,7 @@
   function measure() {
     const range = document.createRange(); range.selectNodeContents(textNode);
     const t = range.getBoundingClientRect(), f0 = fw.getBoundingClientRect();
-    const d = Math.round(t.height * 0.95);
+    const d = Math.round(t.height * 0.62);
     lensWrap.style.setProperty("--d", d + "px");
     lensIn.style.transform = `scale(${ZOOM})`;
     geo = { x: t.left - f0.left, y: t.top - f0.top, w: t.width, h: t.height, d };
@@ -81,7 +81,15 @@
   }
   let lensOn = true, t0 = performance.now();
   const lensLoop = (now) => {
-    if (lensOn) placeLens(0.5 - 0.5 * Math.cos(((now - t0) / 3600) * Math.PI)); // eased back-and-forth, 3.6 s each way
+    if (lensOn) {
+      // one cycle = sweep across (2.8 s) → fade out (0.4 s) → rest so the word can be read (2.6 s) → fade back in at the start (0.4 s)
+      const SWEEP = 2800, FADE = 400, REST = 2600, CYCLE = SWEEP + FADE + REST + FADE;
+      const k = (now - t0) % CYCLE;
+      if (k < SWEEP) { lensWrap.style.opacity = 1; placeLens(0.5 - 0.5 * Math.cos((k / SWEEP) * Math.PI)); }
+      else if (k < SWEEP + FADE) { lensWrap.style.opacity = 1 - (k - SWEEP) / FADE; placeLens(1); }
+      else if (k < SWEEP + FADE + REST) { lensWrap.style.opacity = 0; }
+      else { lensWrap.style.opacity = (k - SWEEP - FADE - REST) / FADE; placeLens(0); }
+    }
     requestAnimationFrame(lensLoop);
   };
   const startLens = () => { measure(); if (reduce) placeLens(0.5); else requestAnimationFrame(lensLoop); };
