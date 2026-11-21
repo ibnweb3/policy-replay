@@ -131,9 +131,10 @@ fn main() -> Result<()> {
         bail!("host/guest disagree on the next state");
     }
 
-    // ---- zkVerify (Kurier) format, as in the zkVerify Risc0 tutorial ----
+    // ---- zkVerify format: the pallet expects the InnerReceipt serialized with ciborium
+    // (docs.zkverify.io/architecture/verification_pallets/risc0), journal bytes as pubs ----
     let mut bin = Vec::new();
-    ciborium::into_writer(&receipt, &mut bin)?;
+    ciborium::into_writer(&receipt.inner, &mut bin)?;
     let image_id = hex::encode(POLICY_GUEST_ID.iter().flat_map(|v| v.to_le_bytes()).collect::<Vec<u8>>());
     let zp = ZkvProof {
         proof: format!("0x{}", hex::encode(&bin)),
