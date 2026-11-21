@@ -33,27 +33,31 @@ Here the receipt goes to zkVerify as-is, via the Kurier API, and comes back with
 
 - The proof shows the decision followed the policy **given the inputs**. It does not prove the proposal itself was
   sensible, or that the payment was then executed on a payment rail. Wiring execution to the receipt is the next step.
-- The demo addresses are made up for the demo; the proofs and zkVerify transactions are real (testnet).
+- The demo addresses and the phishing email are made up for the demo; the proofs and zkVerify transactions are real (Volta testnet).
+- Proving takes about 2 to 4 minutes per decision on a laptop CPU, so this is for audit trails, not for gating a payment in real time.
 - Policy is deliberately small: per-transfer cap, daily limit, allowlist, minimum gap between payments.
 
 ## Demo run
 
-| # | Proposal | Decision | Reason |
-|---|---|---|---|
-| 01 | 300 to design contractor (allowlisted) | APPROVE | OK |
-| 02 | 250 to a new address "from an email" | REJECT | RECIPIENT_NOT_ALLOWLISTED |
-| 03 | 650 to hosting (allowlisted) | REJECT | OVER_PER_TRANSFER_CAP |
-| 04 | 450 to hosting | APPROVE | OK |
-| 05 | 400 to design contractor | REJECT | OVER_DAILY_LIMIT (750 + 400 > 1000) |
+| # | Proposal | Decision | Reason | zkVerify testnet tx (Finalized) |
+|---|---|---|---|---|
+| 01 | 300 to design contractor (allowlisted) | APPROVE | OK | [0xacb50949…](https://zkverify-testnet.subscan.io/extrinsic/0xacb509499cf59cef65068c0e919a7867e2fc2a4f3df6ca871414cf83793f0084) |
+| 02 | 250 to a new address "from an email" | REJECT | RECIPIENT_NOT_ALLOWLISTED | [0xf8f9e9d8…](https://zkverify-testnet.subscan.io/extrinsic/0xf8f9e9d86666223f17d4498de1ae8b1e11a4d857e95247f2911aa490ca329564) |
+| 03 | 650 to hosting (allowlisted) | REJECT | OVER_PER_TRANSFER_CAP | [0xe66c89db…](https://zkverify-testnet.subscan.io/extrinsic/0xe66c89db631c57a699cff4fbfe4cdc86707c62ff3f0a36acce8afd50f606bf63) |
+| 04 | 450 to hosting | APPROVE | OK | [0x5a486471…](https://zkverify-testnet.subscan.io/extrinsic/0x5a48647106cab5acdf6c37265c6c4b15276a198bb608ef6a66427db8ac25e76e) |
+| 05 | 400 to design contractor | REJECT | OVER_DAILY_LIMIT | [0x7b18bdda…](https://zkverify-testnet.subscan.io/extrinsic/0x7b18bddab3e5d79acfa0e48a1839923c1ea73690d84abb32c3760a26dba9d870) |
 
-zkVerify transactions: see `runs/*/zkverify.json` (filled in after submission).
+Policy image ID: `0xec49800da2085a076a300aa47ce95a46f4c4631ddab55e22053cb60df032f698` (registered on zkVerify via Kurier; risc0 2.3.2, verifier `V2_3`).
+`node scripts/check-chain.mjs` output: `CHAIN OK: every decision is proven, finalized, and continues from the one before.`
 
 ## Run it
 
-Requirements: Linux or WSL, Rust, RISC Zero toolchain 3.1 (`rzup install cargo-risczero 3.1.0`, `rzup install r0vm 3.1.0`), Node 20+.
+Requirements: Linux or WSL, Rust, RISC Zero toolchain 2.3.2 (`rzup install cargo-risczero 2.3.2`, `rzup install r0vm 2.3.2`), Node 20+.
 
-Why 3.1: every risc0-zkvm 2.x release was yanked from crates.io after CVE-2025-61588 (a guest memory-safety bug).
-zkVerify's Risc0 pallet has a `V3_0` proof variant, so the receipt is submitted as V3_0.
+Why 2.3.2, pinned in `Cargo.lock`: zkVerify's Risc0 verifier ([risc0-verifier](https://github.com/zkVerify/risc0-verifier)) has contexts up to v3.0.
+Receipts from risc0 3.1 fail it (succinct: `control_id mismatch`, composite: `invalid receipt format`, checked with `tools/zkv-check`).
+Every risc0-zkvm 2.x and 3.0.x release is yanked on crates.io, so the lockfile pins 2.3.2, the release that fixed
+CVE-2025-61588, with crates.io checksums. Yanked crates still install from a lockfile.
 
 ```bash
 bash scripts/run-demo.sh                 # proves all five proposals, chained (no dev mode)
@@ -68,3 +72,4 @@ node scripts/check-chain.mjs
 - `host/src/main.rs`: runs the prover, checks the receipt locally, writes `proof.json` in zkVerify's Risc0 format
 - `scripts/submit.mjs`: registers the image ID and submits through Kurier, waits for `Finalized`
 - `scripts/check-chain.mjs`: verifies the chain of decisions
+- `tools/zkv-check`: verifies a `proof.json` locally with zkVerify's own `risc0-verifier` crate before submitting

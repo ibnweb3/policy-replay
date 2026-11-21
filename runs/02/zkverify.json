@@ -1,0 +1,11 @@
+{
+  "network": "zkVerify Volta testnet",
+  "jobId": "39458adb-e5ae-11f1-bb46-22f5290c9c2d",
+  "status": "Finalized",
+  "txHash": "0xf8f9e9d86666223f17d4498de1ae8b1e11a4d857e95247f2911aa490ca329564",
+  "blockHash": "0x4b0da9150f3505cee3364f00ff3e2bae32cdc98ebb8f4f2485775d4dcb93e0aa",
+  "vkHash": "0xec49800da2085a076a300aa47ce95a46f4c4631ddab55e22053cb60df032f698",
+  "risc0Version": "V2_3",
+  "finalizedAt": "2026-11-21T13:20:09.000Z",
+  "explorer": "https://zkverify-testnet.subscan.io/extrinsic/0xf8f9e9d86666223f17d4498de1ae8b1e11a4d857e95247f2911aa490ca329564"
+}
