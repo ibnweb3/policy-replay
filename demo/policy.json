@@ -1,0 +1,9 @@
+{
+  "max_per_transfer": 500,
+  "daily_limit": 1000,
+  "min_gap_secs": 60,
+  "allowlist": [
+    "0x7a3f9c2e41b8d05e6c1fa9b3d27e48c50f6a1d92",
+    "0x2c91e4b7a05d38f6e1c2b9a47d3e05f81c6a4b70"
+  ]
+}
